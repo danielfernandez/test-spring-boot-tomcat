@@ -1,9 +1,11 @@
-Test repository for XXXXXX
---------------------------
+Test repository for SPR-14932
+-----------------------------
 
-**Link**: [XXX](...)  
+**Link**: [SPR-14932](https://jira.spring.io/browse/SPR-14932)  
+
 **Title**: Class loading issues due to thread context classloader hierarchy (Spring Web Reactive + Tomcat)
-**Tag**: Use tag `XXX`
+
+**Tag**: Use tag `SPR-14932`
 
 ## Scenario
 
@@ -47,8 +49,8 @@ This is the detail of what is happening at the [200reactive-tomcat] application:
      with no class path.
    * The *class* class loader is an `org.springframework.boot.loader.LaunchedURLClassLoader` instance with a
      class path including all the inner `.jar` files inside the Spring Boot *über jar*.
-   * The `ParallelWebappClassLoader` **does not delegate** on the `LaunchedURLClassLoader`, but instead
-     directly delegates on the `sun.misc.Launcher$AppClassLoader` that the `LaunchedURLClassLoader` delegates too.
+   * The `ParallelWebappClassLoader` **does not delegate** to the `LaunchedURLClassLoader`, but instead
+     directly delegates to the `sun.misc.Launcher$AppClassLoader` that the `LaunchedURLClassLoader` delegates too.
 
 The above situation is what causes the `ClassNotFoundException` when executing [200reactive-tomcat] and the
 *thread-context* class loader is used to load the desired class at the library.
@@ -81,10 +83,10 @@ This is the *thread-context* class loader hierarchy for [200reactive-tomcat] —
 ```
 
 
-## Possible Diagnostic
+## Possible Diagnosis
 
 The `org.apache.catalina.loader.ParallelWebappClassLoader` being used as thread context class loader in [reactive200-tomcat]
-**should delegate on `org.springframework.boot.loader.LaunchedURLClassLoader`**, but it doesn't.
+**should delegate to `org.springframework.boot.loader.LaunchedURLClassLoader`, but it doesn't**.
 
 
 ## How to test
