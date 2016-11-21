@@ -11,6 +11,7 @@ Test repository for XXXXXX
    * A web application uses a library.
    * That library needs to dynamically load a class that implements a specific interface.
 
+
  This repository consists of:
 
    * A library (`-lib`) including two classes called `SomeIntefaceClassClassLoaderUtils` and
@@ -25,6 +26,7 @@ Test repository for XXXXXX
        * [200reactive-tomcat] A Spring Boot `2.0.0.BUILD-SNAPSHOT` webapp using Spring Web Reactive `5.0.0.BUILD-SNAPSHOT` on Tomcat.
        * [200reactive-netty] A Spring Boot `2.0.0.BUILD-SNAPSHOT` webapp using Spring Web Reactive `5.0.0.BUILD-SNAPSHOT` on Netty.
 
+
  All Spring Boot applications were generated using http://start.spring.io, with minor changes to
  their `pom.xml`s to add the library dependency and/or enable or disable Tomcat/Netty.
 
@@ -34,6 +36,7 @@ Test repository for XXXXXX
      let it load the required interface implementation without issues.
    * **Web application [200reactive-tomcat] fails** when using the thread context class loader, throwing a
      `ClassNotFoundException` on the desired interface implementation class. When using the class class loader it works OK.
+
 
  This is the detail of what is happening at the [200reactive-tomcat] application:
 
@@ -47,6 +50,7 @@ Test repository for XXXXXX
    * The `ParallelWebappClassLoader` class loader has no class path.
    * The `ParallelWebappClassLoader` class loader does not delegate on the `LaunchedURLClassLoader`, but instead
      directly delegates on the `sun.misc.Launcher$AppClassLoader` that the `LaunchedURLClassLoader` delegates too.
+
 
  The above situation is what causes the `ClassNotFoundException` when executing [200reactive-tomcat].
 
